@@ -14,11 +14,13 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  credits       Int       @default(0)
 
   accounts  Account[]
   sessions  Session[]
   tokens    Token[]
   createdAt DateTime  @default(now())
+  animals   Animal[]
 }
 
 model Account {
@@ -73,4 +75,39 @@ model Token {
   userId     String
 
   @@index([userId])
+}
+
+enum Genre {
+  Macho
+  Femia
+}
+
+model Animal {
+  id         String  @id @default(cuid())
+  image      String?
+  name       String
+  specie     String
+  birth      String
+  breed      String
+  color      String
+  castrated  Boolean
+  code       String
+  comments   String?
+  dad        String?
+  mother     String?
+  genre      Genre
+  microchip  String?
+  modelColor String?
+  city       String
+  size       String
+  state      String
+  ownerName  String
+  ownerPhone String
+  ownerEmail String?
+
+  owner  User   @relation(fields: [userId], references: [id])
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
